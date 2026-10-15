@@ -1,0 +1,53 @@
+# CS 253 Style Guide -- machine-enforceable subset
+#
+# `make style` checks this. It is a SUBSET of the CS 253 Style Guide:
+# clang-format can enforce layout (indentation, braces, spacing, line
+# length) but it cannot enforce naming, comment quality, or function
+# length. Those are in the Style Guide and are reviewed by a human.
+#
+# Indentation and brace placement match the code examples in the course
+# readings, so what you read and what you are checked against agree.
+
+Language:        Cpp        # clang-format's name for the C family
+BasedOnStyle:    LLVM
+
+# --- Layout -----------------------------------------------------------
+IndentWidth:     2
+TabWidth:        2
+UseTab:          Never
+ColumnLimit:     100        # 80 is unkind to descriptive C identifiers
+
+# --- Braces -----------------------------------------------------------
+# Attached (K&R): `if (cond) {` -- matches the readings.
+BreakBeforeBraces: Attach
+
+# Never collapse a block onto one line. EXP19-C requires braces even for
+# single statements; allowing `if (x) return;` invites omitting them.
+AllowShortIfStatementsOnASingleLine:   Never
+AllowShortLoopsOnASingleLine:          false
+AllowShortFunctionsOnASingleLine:      None
+AllowShortBlocksOnASingleLine:         Never
+AllowShortCaseLabelsOnASingleLine:     false
+InsertBraces:    true
+
+# --- Pointers ---------------------------------------------------------
+# `char *name` -- the star binds to the name, as in the readings and K&R.
+PointerAlignment: Right
+DerivePointerAlignment: false
+
+# --- Spacing ----------------------------------------------------------
+SpaceBeforeParens:              ControlStatements
+SpacesInParentheses:            false
+SpacesInSquareBrackets:         false
+SpaceAfterCStyleCast:           false
+MaxEmptyLinesToKeep:            2
+
+# --- Includes ---------------------------------------------------------
+# Do not reorder includes. Reordering can break code that depends on
+# include order, and diagnosing that is beyond this course.
+SortIncludes:    Never
+
+# --- Alignment --------------------------------------------------------
+AlignTrailingComments:  true
+AlignConsecutiveMacros: Consecutive
+IndentCaseLabels:       true

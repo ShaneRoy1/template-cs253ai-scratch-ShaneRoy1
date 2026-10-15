@@ -1,0 +1,52 @@
+{
+  "name": "CS 253. Scratch",
+
+  // Ubuntu 24.04 ships gcc 13 and clang-format 18. Both matter:
+  //   - gcc (not clang) for -Wduplicated-cond / -Wjump-misses-init
+  //   - clang-format >= 15 for the InsertBraces option in .clang-format
+  // The tag is ubuntu-24.04 rather than :latest, so the DISTRIBUTION is fixed
+  // and gcc/clang-format come from its repositories. This does NOT pin exact
+  // patch versions, and the tag is rebuilt upstream over time, so two students
+  // months apart may not get byte-identical toolchains. That is fine: what the
+  // course needs is GCC rather than Clang, clang-format >= 15, and a working
+  // LeakSanitizer. Ubuntu 24.04 gives all three; a student's own laptop may
+  // give none. Pinning to a digest would buy reproducibility the course does
+  // not need and guarantee the image goes stale.
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": false,
+      "upgradePackages": true
+    }
+  },
+
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends build-essential gdb make clang-format && gcc --version | head -1 && clang-format --version",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "xaver.clang-format"
+      ],
+      "settings": {
+        "C_Cpp.default.cStandard": "c11",
+        "C_Cpp.default.compilerPath": "/usr/bin/gcc",
+        "editor.formatOnSave": false,
+        "editor.rulers": [100],
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "[c]": {
+          "editor.defaultFormatter": "xaver.clang-format",
+          "editor.tabSize": 2,
+          "editor.insertSpaces": true
+        }
+      }
+    }
+  },
+
+  // Codespaces billing note: org-billed Codespaces is deliberately OFF for
+  // HindmanCourses, so this draws on your GitHub Student Developer Pack
+  // allowance. See instructor-setup-guide.md section 6.
+  "remoteUser": "vscode"
+}
